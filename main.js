@@ -74,8 +74,27 @@ var results = cidr.list(block);
 
 var valid_ip_list = get_valid_ip_list(start_ip, total_count);
 
+// valid_ip_list.forEach(function (ip) {
+//     ping.promise.probe(ip).then(function (res) {
+//         console.log(res);
+//     });
+// });
+
+var valid_ip_matrix = [];
+
+// Convert 1D array to 2D
 valid_ip_list.forEach(function (ip) {
-    ping.promise.probe(ip).then(function (res) {
-        console.log(res);
-    });
+    valid_ip_matrix.push([ip]);
 });
+
+// Add Header
+valid_ip_matrix.unshift(["ip_address"]);
+
+// Write file 
+csv
+    .writeToPath("files//my.csv", valid_ip_matrix, {
+        headers: true
+    })
+    .on("finish", function () {
+        console.log("done!");
+    });
