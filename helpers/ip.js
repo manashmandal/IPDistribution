@@ -22,7 +22,7 @@ var csv_stream = fs.createReadStream(IP_LIST_CSV_PATH, 'utf-8');
 
 
 exports.generate_ip_list = function (csv_file_path) {
-    var _begin_ip = [];
+    var ip_count_dict = [];
 
     // Get CIDR based on count 
     function get_CIDR(count) {
@@ -38,11 +38,14 @@ exports.generate_ip_list = function (csv_file_path) {
 
     // Load each row 
     csv_stream.pipe(csvReaderStream()).on('data', function (row) {
-            _begin_ip.push(row);
+            ip_count_dict.push({
+                'ip': row[BEGIN_IP],
+                'count': row[TOTAL_COUNT]
+            });
         })
         .on('end', function (data) {
             console.log("FINISHED");
-            console.log(_begin_ip);
+            console.log(ip_count_dict);
         });
 
 };
