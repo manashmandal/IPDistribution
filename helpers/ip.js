@@ -1,17 +1,28 @@
-//Imports
-var CIDR = require('cidr-js');
-var cidr = CIDR();
-var csv = require('fast-csv');
-
-//Indices 
+//Constants  
 const SERIAL = 0;
 const BEGIN_IP = 1;
 const END_IP = 2;
 const TOTAL_COUNT = 3;
 const CIDR_MAX = 32;
 const EXCLUDE_NETWORK_ADDRESS = 1;
+const IP_LIST_CSV_PATH = "E:\\IPDistribution\\files\\bd_ip_list.csv";
+
+
+//Imports
+var CIDR = require('cidr-js');
+var cidr = CIDR();
+var csv_writer = require('fast-csv');
+var csvReaderStream = require('csv-reader');
+var fs = require('fs');
+
+var csv_stream = fs.createReadStream(IP_LIST_CSV_PATH, 'utf-8');
+
+
+
+
 
 exports.generate_ip_list = function (csv_file_path) {
+    var _begin_ip = [];
 
     // Get CIDR based on count 
     function get_CIDR(count) {
@@ -25,32 +36,34 @@ exports.generate_ip_list = function (csv_file_path) {
         return cidr.list(query_ip).slice(EXCLUDE_NETWORK_ADDRESS, count - EXCLUDE_NETWORK_ADDRESS);
     }
 
-    // Iterate the bd ip list 
-    csv.fromPath(csv_file_path).on("data", function (data) {
-        console.log(data[BEGIN_IP] + " " + data[TOTAL_COUNT]);
-    });
+    // Load each row 
+    csv_stream.pipe(csvReaderStream()).on('data', function (row) {
+            _begin_ip.push(row);
+        })
+        .on('end', function (data) {
+            console.log("FINISHED");
+            console.log(_begin_ip);
+        });
 
 };
 
 // Generate CSV file 
-exports.generate_csv = function (generated_ip_list) {
-    // var valid_ip_matrix = [];
+exports.generate_csv = function (generated_ip_list, filepath) {
+    // Store the IP Addresses as 2D
+    var ip_matrix = [];
 
-    // // Convert 1D array to 2D
-    // valid_ip_list.forEach(function (ip) {
-    //     valid_ip_matrix.push([ip]);
-    // });
+    // Adding all ip
+    generated_ip_list.forEach(function (ip) {
+        ip_matrix.push([ip]);
+    });
 
-    // Add Header
-    // valid_ip_matrix.unshift(["ip_address"]);
+    // Adding Header to the CSV
+    ip_matrix.unshift(["ip_address"]);
 
-    // Write file 
-    // csv
-    //     .writeToPath("files//my.csv", valid_ip_matrix, {
-    //         headers: true
-    //     })
-    //     .on("finish", function () {
-    //         console.log("done!");
-    //     });
-
+    // Writing the csv file 
+    csv.writeToPath(filepath, ip_matrix, {
+        headers: true
+    }).on('finish', function () {
+        console.log("Finished Writing the CSV File");
+    });
 };
