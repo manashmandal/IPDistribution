@@ -11,12 +11,18 @@
   "dependencies": {
     "cidr-js": "^2.3.1",
     "csv-reader": "^1.0.1",
+    "elasticsearch": "^13.0.1",
+    "express": "^4.15.3",
     "fast-csv": "^2.4.0",
     "jjg-ping": "^1.0.1",
     "mongodb": "^2.2.26",
     "node-ping": "^0.1.0",
     "ping": "^0.2.2",
     "ping-stats": "^1.0.3",
+    "pug": "^2.0.0-rc.1",
     "q": "^1.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
