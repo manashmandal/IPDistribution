@@ -5,7 +5,6 @@ const END_IP = 2;
 const TOTAL_COUNT = 3;
 const CIDR_MAX = 32;
 const EXCLUDE_NETWORK_ADDRESS = 1;
-const IP_LIST_CSV_PATH = "E:\\IPDistribution\\files\\bd_ip_list.csv";
 
 
 //Imports
@@ -15,14 +14,14 @@ var csv_writer = require('fast-csv');
 var csvReaderStream = require('csv-reader');
 var fs = require('fs');
 
-var csv_stream = fs.createReadStream(IP_LIST_CSV_PATH, 'utf-8');
 
 
+exports.generate_ip_list = function (read_file_path, write_file_path) {
+    // CSV Stream 
+    var csv_stream = fs.createReadStream(read_file_path, 'utf-8');
 
-
-
-exports.generate_ip_list = function (csv_file_path) {
     var ip_count_dict = [];
+    var ip_list = [];
 
     // Get CIDR based on count 
     function get_CIDR(count) {
@@ -36,37 +35,43 @@ exports.generate_ip_list = function (csv_file_path) {
         return cidr.list(query_ip).slice(EXCLUDE_NETWORK_ADDRESS, count - EXCLUDE_NETWORK_ADDRESS);
     }
 
-    // Load each row 
+
+    function generate_csv(generated_ip_list, filepath) {
+        // Store the IP Addresses as 2D
+        var ip_matrix = [];
+
+        // Adding all ip
+        generated_ip_list.forEach(function (ip) {
+            ip_matrix.push([ip]);
+        });
+
+        // Adding Header to the CSV
+        ip_matrix.unshift(["ip_address"]);
+
+        // Writing the csv file 
+        csv_writer.writeToPath(filepath, ip_matrix, {
+            headers: true
+        }).on('finish', function () {
+            console.log("Finished Writing the CSV File");
+        });
+    }
+
+    // Load each row after finished reading write in a file 
     csv_stream.pipe(csvReaderStream()).on('data', function (row) {
             ip_count_dict.push({
-                'ip': row[BEGIN_IP],
-                'count': row[TOTAL_COUNT]
+                'ip': "" + row[BEGIN_IP],
+                'count': "" + row[TOTAL_COUNT]
             });
         })
         .on('end', function (data) {
-            console.log("FINISHED");
-            console.log(ip_count_dict);
+            console.log("FINISHED READING");
+            // Finally generate all ips 
+            ip_count_dict.slice(1, ip_count_dict.length).forEach(function (ip) {
+                var generated_ip_from_range = get_valid_ip_list(ip['ip'], ip['count']);
+                ip_list = ip_list.concat(generated_ip_from_range);
+            });
+
+            generate_csv(ip_list, write_file_path);
         });
 
-};
-
-// Generate CSV file 
-exports.generate_csv = function (generated_ip_list, filepath) {
-    // Store the IP Addresses as 2D
-    var ip_matrix = [];
-
-    // Adding all ip
-    generated_ip_list.forEach(function (ip) {
-        ip_matrix.push([ip]);
-    });
-
-    // Adding Header to the CSV
-    ip_matrix.unshift(["ip_address"]);
-
-    // Writing the csv file 
-    csv.writeToPath(filepath, ip_matrix, {
-        headers: true
-    }).on('finish', function () {
-        console.log("Finished Writing the CSV File");
-    });
 };

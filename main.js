@@ -1,19 +1,18 @@
 var ping = require('ping');
 var gen_ip = require('./helpers/ip').generate_ip_list;
-var gen_csv = require('./helpers/ip').generate_csv;
+var fs = require('fs');
 
 const root = __dirname;
 
-// Ip list 
-const bd_ip_list = root + '\\files\\bd_ip_list.csv';
-const all_ip_write_path = './files/all_ip.csv';
+// IP CSV file read, write path  
+const read_ip_path = root + '\\files\\bd_ip_list.csv';
+const write_ip_path = root + '\\files\\all_ip.csv';
 
 
-
-// valid_ip_list.forEach(function (ip) {
-//     ping.promise.probe(ip).then(function (res) {
-//         console.log(res);
-//     });
-// });
-
-console.log(gen_ip(bd_ip_list));
+// Do this only once!
+if (fs.existsSync(write_ip_path)) {
+    console.log("FILE EXISTS [NO NEED TO WRITE AGAIN]");
+} else {
+    console.log("FILE DOESN'T EXIST, WRITING....");
+    gen_ip(read_ip_path, write_ip_path);
+}
