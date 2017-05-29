@@ -1,5 +1,6 @@
 var ping = require('ping');
 var gen_ip = require('./helpers/ip').generate_ip_list;
+var read_csv = require('./helpers/ip').read_csv;
 var fs = require('fs');
 var express = require('express');
 var app = express();
@@ -11,6 +12,7 @@ const root = __dirname;
 // IP CSV file read, write path  
 const read_ip_path = root + '\\files\\bd_ip_list.csv';
 const write_ip_path = root + '\\files\\all_ip.csv';
+const ip_path = root + "\\files\\bd_ip_list.csv";
 
 // Set view enine 
 app.set('view engine', 'pug');
@@ -21,6 +23,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+var placeholder = [];
+placeholder = read_csv(read_ip_path, placeholder);
 
 // Do this only once!
 if (fs.existsSync(write_ip_path)) {
@@ -42,7 +46,10 @@ app.get('/', function (req, res) {
 
 
 app.post('/button_click', function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
+    // res.send(200);
+    console.log("BUTTON CLICK");
+    console.log(placeholder);
     res.send(200);
 });
 

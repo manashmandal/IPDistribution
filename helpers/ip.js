@@ -75,3 +75,22 @@ exports.generate_ip_list = function (read_file_path, write_file_path) {
         });
 
 };
+
+
+exports.read_csv = function (read_file_path, placeholder) {
+
+    var ips = [];
+    // CSV Stream 
+    var csv_stream = fs.createReadStream(read_file_path, 'utf-8');
+
+    csv_stream.pipe(csvReaderStream()).on('data', function (row) {
+            // console.log(row);
+            ips.push(row);
+        })
+        .on('end', function (data) {
+            console.log("FINISHED READING");
+            placeholder = ips;
+        });
+
+    return ips;
+};
