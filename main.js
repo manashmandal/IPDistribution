@@ -4,6 +4,7 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 const path = require("path");
+var bodyParser = require('body-parser');
 
 const root = __dirname;
 
@@ -14,7 +15,12 @@ const write_ip_path = root + '\\files\\all_ip.csv';
 // Set view enine 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, "views"));
-app.use(express.static('public'))
+app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 
 // Do this only once!
 if (fs.existsSync(write_ip_path)) {
@@ -32,6 +38,14 @@ app.get('/:user', function (req, res) {
 
 app.get('/', function (req, res) {
     res.render("homepage");
-})
+});
+
+
+app.post('/button_click', function (req, res) {
+    console.log(req.body);
+    res.send(200);
+});
+
+
 
 app.listen(8000);

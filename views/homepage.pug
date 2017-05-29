@@ -3,16 +3,17 @@ html
         title Hello 
         //- Stylesheet
         link(href="/css/bootstrap.css" rel="stylesheet")
-
-        
     body
         div(class='container')
             div(class='jumbotron')
                 h1 Hello World!
                 p Hi there, #{user}!
+            |
+            |
+
+            form(method="post" action="/button_click")
+                button.btn.btn-primary(type="submit") Submit
 
         //- JS files 
-
         script(src="js/jquery-3.2.1.min.js")
-        
         script(src="js/bootstrap.min.js")
