@@ -1,8 +1,18 @@
 html
     head 
         title Hello 
-        script(src="/js/bootstrap.js")
+        //- Stylesheet
         link(href="/css/bootstrap.css" rel="stylesheet")
-    body 
-        h1 Hello World!
-        p Hi there, #{user}!
+
+        
+    body
+        div(class='container')
+            div(class='jumbotron')
+                h1 Hello World!
+                p Hi there, #{user}!
+
+        //- JS files 
+
+        script(src="js/jquery-3.2.1.min.js")
+        
+        script(src="js/bootstrap.min.js")
