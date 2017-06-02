@@ -10,8 +10,6 @@ var bodyParser = require('body-parser');
 const root = __dirname;
 
 // IP CSV file read, write path  
-const read_ip_path = root + '\\files\\bd_ip_list.csv';
-const write_ip_path = root + '\\files\\all_ip.csv';
 const ip_path = root + "\\files\\bd_ip_list.csv";
 
 // Set view enine 
@@ -23,16 +21,10 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-var placeholder = [];
-placeholder = read_csv(read_ip_path, placeholder);
 
-// Do this only once!
-if (fs.existsSync(write_ip_path)) {
-    console.log("FILE EXISTS [NO NEED TO WRITE AGAIN]");
-} else {
-    console.log("FILE DOESN'T EXIST, WRITING....");
-    gen_ip(read_ip_path, write_ip_path);
-}
+// Load all ip details 
+var ip_ = read_csv(ip_path);
+
 
 // Ping an ip address 
 // ping.promise.probe(host).then(function (res) {
@@ -40,6 +32,7 @@ if (fs.existsSync(write_ip_path)) {
 // });
 
 app.get('/:user', function (req, res) {
+    console.log(ip_[0]);
     res.render("homepage", {
         user: req.params.user
     });
@@ -54,7 +47,6 @@ app.post('/button_click', function (req, res) {
     // console.log(req.body);
     // res.send(200);
     console.log("BUTTON CLICK");
-    console.log(placeholder);
     res.send(200);
 });
 
