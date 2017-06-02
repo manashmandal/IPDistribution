@@ -34,6 +34,12 @@ if (fs.existsSync(write_ip_path)) {
     gen_ip(read_ip_path, write_ip_path);
 }
 
+// Ping an ip address 
+// ping.promise.probe(host).then(function (res) {
+//     console.log(res);
+// });
+
+
 app.get('/:user', function (req, res) {
     res.render("homepage", {
         user: req.params.user
