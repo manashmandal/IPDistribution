@@ -7,8 +7,7 @@ html
         div(class='container')
             ul
                 each dict in ip_list
-                    each ip, count in dict
-                        li= dict[count]
+                    li= dict['ip'] + " --- " + dict['count']
 
                 //- li "IP" --- "COUNT"
                 //- each val, index in ip_list
