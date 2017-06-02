@@ -26,16 +26,18 @@ html
 
         //- Container Code 
         div(class='container')
-            div(class='jumbotron')
-                h1 IP Distribution 
-                p A Node app that is used to collect IP stats 
-                p
-                    a(class="btn btn-primary btn-lg" href="#" role="button") Learn More 
+            block jumbotron
+                div(class='jumbotron')
+                    h1 IP Distribution 
+                    p A Node app that is used to collect IP stats 
+                    p
+                        a(class="btn btn-primary btn-lg" href="#" role="button") Learn More 
             block content 
 
         //- JS files 
-        script(src="js/jquery-3.2.1.min.js")
-        script(src="js/bootstrap.min.js")
-        script(src="js/jquery.dataTables.min.js")
-        script(src="js/dataTables.bootstrap.min.js")
-        script(src="js/script.js")
+        block scripts 
+            script(src="js/jquery-3.2.1.min.js")
+            script(src="js/bootstrap.min.js")
+            script(src="js/jquery.dataTables.min.js")
+            script(src="js/dataTables.bootstrap.min.js")
+            script(src="js/script.js")
