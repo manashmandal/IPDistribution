@@ -17,6 +17,8 @@
     "fast-csv": "^2.4.0",
     "jjg-ping": "^1.0.1",
     "mongodb": "^2.2.26",
+    "mongoose": "^4.10.4",
+    "node-datetime": "^1.0.0",
     "node-ping": "^0.1.0",
     "ping": "^0.2.2",
     "ping-stats": "^1.0.3",
