@@ -16,24 +16,8 @@ var fs = require('fs');
 
 
 
-exports.generate_ip_list = function (ip_cidr) {
-    // CSV Stream 
-    var csv_stream = fs.createReadStream(read_file_path, 'utf-8');
-
-    var ip_count_dict = [];
-    var ip_list = [];
-
-
-
-    // Returns list of valid ip
-    function get_valid_ip_list(start_ip, count) {
-        var _cidr = get_CIDR(+count);
-        var query_ip = start_ip + "/" + _cidr;
-        return cidr.list(query_ip).slice(EXCLUDE_NETWORK_ADDRESS, count - EXCLUDE_NETWORK_ADDRESS);
-    }
-
-
-
+exports.generate_ip_list = function (ip_details) {
+    return cidr.list(ip_details['ip']).slice(EXCLUDE_NETWORK_ADDRESS, +ip_details['count'] - EXCLUDE_NETWORK_ADDRESS);
 };
 
 
