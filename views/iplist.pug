@@ -1,5 +1,5 @@
 //- IP List 
-extends master.pug 
+extends layout/master.pug 
 
 block jumbotron
     //- Changing the jumbotron into heading 1 
@@ -20,8 +20,6 @@ block content
                 tr
                     td= dict['ip']
                     td= dict['count']
-        //- each dict in ip_list
-            li= dict['ip'] + " --- " + dict['count']
 
 
 block scripts 
