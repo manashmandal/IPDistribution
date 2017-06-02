@@ -1,18 +1,21 @@
-html
-    head 
-        title IP List  
-        //- Stylesheet
-        link(href="/css/bootstrap.css" rel="stylesheet")
-    body
-        div(class='container')
-            ul
-                each dict in ip_list
-                    li= dict['ip'] + " --- " + dict['count']
+//- html
+//-     head 
+//-         title IP List  
+//-         //- Stylesheet
+//-         link(href="/css/bootstrap.css" rel="stylesheet")
+//-     body
+//-         div(class='container')
+//-             ul
+//-                 each dict in ip_list
+//-                     li= dict['ip'] + " --- " + dict['count']
 
-                //- li "IP" --- "COUNT"
-                //- each val, index in ip_list
-                //-     li= "Hello world : " + ip_list[index]['ip'] 
+//-         //- JS files 
+//-         script(src="js/jquery-3.2.1.min.js")
+//-         script(src="js/bootstrap.min.js")
 
-        //- JS files 
-        script(src="js/jquery-3.2.1.min.js")
-        script(src="js/bootstrap.min.js")
+extends master.pug 
+
+block content 
+    ul
+        each dict in ip_list
+            li= dict['ip'] + " --- " + dict['count']
