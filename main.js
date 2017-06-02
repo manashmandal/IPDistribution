@@ -44,12 +44,14 @@ app.get('/:user', function (req, res) {
 app.get('/ips/iplist', function (req, res) {
     res.render('iplist', {
         ip_list: ip_renders,
-        title: "Available IPs"
+        title_placeholder: "Available IPs"
     });
 });
 
 app.get('/', function (req, res) {
-    res.render("homepage");
+    res.render("homepage", {
+        title_placeholder: "IP Distribution | Node App"
+    });
 });
 
 
