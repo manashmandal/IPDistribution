@@ -59,8 +59,8 @@ exports.read_csv = function (read_file_path) {
             console.log("FINISHED READING");
         });
 
-    return [{
+    return {
         'process': ips,
         'render': render_ips
-    }];
+    }
 };

@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({
 
 
 // Load all ip details 
-var _ip = read_csv(ip_path)[0];
+var _ip = read_csv(ip_path);
 
 // Distribute ips accross rendering and processing purpose 
 var ip_ = _ip['process'];
