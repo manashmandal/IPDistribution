@@ -23,7 +23,11 @@ app.use(bodyParser.urlencoded({
 
 
 // Load all ip details 
-var ip_ = read_csv(ip_path);
+var _ip = read_csv(ip_path)[0];
+
+// Distribute ips accross rendering and processing purpose 
+var ip_ = _ip['process'];
+var ip_renders = _ip['render'];
 
 
 // Ping an ip address 
@@ -39,7 +43,7 @@ app.get('/:user', function (req, res) {
 
 app.get('/ips/iplist', function (req, res) {
     res.render('iplist', {
-        ip_list: ip_
+        ip_list: ip_renders
     });
 });
 

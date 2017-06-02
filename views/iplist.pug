@@ -6,8 +6,13 @@ html
     body
         div(class='container')
             ul
-                each val, index in ip_list
-                    li= val['count']
+                each dict in ip_list
+                    each ip, count in dict
+                        li= dict[count]
+
+                //- li "IP" --- "COUNT"
+                //- each val, index in ip_list
+                //-     li= "Hello world : " + ip_list[index]['ip'] 
 
         //- JS files 
         script(src="js/jquery-3.2.1.min.js")

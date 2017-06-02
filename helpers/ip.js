@@ -31,7 +31,12 @@ exports.read_csv = function (read_file_path) {
         return (CIDR_MAX - Math.log2(count))
     }
 
+    // This ip for processing
     var ips = [];
+
+    // Return this ip for HTML rendering
+    var render_ips = [];
+
     // CSV Stream 
     var csv_stream = fs.createReadStream(read_file_path, 'utf-8');
 
@@ -42,6 +47,11 @@ exports.read_csv = function (read_file_path) {
                     ip: row[BEGIN_IP] + "/" + get_CIDR(+row[TOTAL_COUNT]),
                     count: +row[TOTAL_COUNT]
                 });
+
+                render_ips.push({
+                    ip: row[BEGIN_IP],
+                    count: row[TOTAL_COUNT]
+                });
             }
             first_row = false;
         })
@@ -49,5 +59,8 @@ exports.read_csv = function (read_file_path) {
             console.log("FINISHED READING");
         });
 
-    return ips;
+    return [{
+        'process': ips,
+        'render': render_ips
+    }];
 };
