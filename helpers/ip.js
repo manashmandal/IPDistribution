@@ -16,17 +16,14 @@ var fs = require('fs');
 
 
 
-exports.generate_ip_list = function (read_file_path, write_file_path) {
+exports.generate_ip_list = function (ip_cidr) {
     // CSV Stream 
     var csv_stream = fs.createReadStream(read_file_path, 'utf-8');
 
     var ip_count_dict = [];
     var ip_list = [];
 
-    // Get CIDR based on count 
-    function get_CIDR(count) {
-        return (CIDR_MAX - Math.log2(count))
-    }
+
 
     // Returns list of valid ip
     function get_valid_ip_list(start_ip, count) {
@@ -36,46 +33,19 @@ exports.generate_ip_list = function (read_file_path, write_file_path) {
     }
 
 
-    function generate_csv(generated_ip_list, filepath) {
-        // Store the IP Addresses as 2D
-        var ip_matrix = [];
-
-        // Adding all ip
-        generated_ip_list.forEach(function (ip) {
-            ip_matrix.push([ip]);
-        });
-
-        // Adding Header to the CSV
-        ip_matrix.unshift(["ip_address"]);
-
-        // Writing the csv file 
-        csv_writer.writeToPath(filepath, ip_matrix, {
-            headers: true
-        }).on('finish', function () {
-            console.log("Finished Writing the CSV File");
-        });
-    }
-
-    // Load each row after finished reading write in a file 
-    csv_stream.pipe(csvReaderStream()).on('data', function (row) {
-            ip_count_dict.push({
-                'ip': "" + row[BEGIN_IP],
-                'count': "" + row[TOTAL_COUNT]
-            });
-        })
-        .on('end', function (data) {
-            console.log("FINISHED READING");
-            // Finally generate all ips 
-            ip_count_dict.slice(1, ip_count_dict.length).forEach(function (ip) {
-                var generated_ip_from_range = get_valid_ip_list(ip['ip'], ip['count']);
-                ip_list = ip_list.concat(generated_ip_from_range);
-            });
-        });
 
 };
 
 
 exports.read_csv = function (read_file_path) {
+
+    // exclude first row 
+    var first_row = true;
+
+    // Get CIDR based on count 
+    function get_CIDR(count) {
+        return (CIDR_MAX - Math.log2(count))
+    }
 
     var ips = [];
     // CSV Stream 
@@ -83,7 +53,13 @@ exports.read_csv = function (read_file_path) {
 
     csv_stream.pipe(csvReaderStream()).on('data', function (row) {
             // console.log(row);
-            ips.push(row);
+            if (!first_row) {
+                ips.push({
+                    ip: row[BEGIN_IP] + "/" + get_CIDR(+row[TOTAL_COUNT]),
+                    count: +row[TOTAL_COUNT]
+                });
+            }
+            first_row = false;
         })
         .on('end', function (data) {
             console.log("FINISHED READING");
