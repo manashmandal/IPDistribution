@@ -70,14 +70,12 @@ exports.generate_ip_list = function (read_file_path, write_file_path) {
                 var generated_ip_from_range = get_valid_ip_list(ip['ip'], ip['count']);
                 ip_list = ip_list.concat(generated_ip_from_range);
             });
-
-            generate_csv(ip_list, write_file_path);
         });
 
 };
 
 
-exports.read_csv = function (read_file_path, placeholder) {
+exports.read_csv = function (read_file_path) {
 
     var ips = [];
     // CSV Stream 
@@ -89,7 +87,6 @@ exports.read_csv = function (read_file_path, placeholder) {
         })
         .on('end', function (data) {
             console.log("FINISHED READING");
-            placeholder = ips;
         });
 
     return ips;

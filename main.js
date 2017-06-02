@@ -39,7 +39,6 @@ if (fs.existsSync(write_ip_path)) {
 //     console.log(res);
 // });
 
-
 app.get('/:user', function (req, res) {
     res.render("homepage", {
         user: req.params.user
