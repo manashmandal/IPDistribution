@@ -1,8 +1,11 @@
+//- https://datatables.net/examples/styling/bootstrap.html [Use dataTable]
+
 html
     head 
         title #{title_placeholder} 
         //- Stylesheet
         link(href="/css/bootstrap.css" rel="stylesheet")
+        link(href="/css/dataTables.bootstrap.min.css" rel="stylesheet")
     body
 
         //- Navbar Code 
@@ -32,6 +35,7 @@ html
 
         //- JS files 
         script(src="js/jquery-3.2.1.min.js")
-        script(src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js")
-        script(src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js")
+        script(src="js/jquery.dataTables.min.js")
+        script(src="js/dataTables.bootstrap.min.js")
         script(src="js/bootstrap.min.js")
+        script(src="js/script.js")
