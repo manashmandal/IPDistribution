@@ -1,0 +1,14 @@
+html
+    head 
+        title IP List  
+        //- Stylesheet
+        link(href="/css/bootstrap.css" rel="stylesheet")
+    body
+        div(class='container')
+            ul
+                each val, index in ip_list
+                    li= val['count']
+
+        //- JS files 
+        script(src="js/jquery-3.2.1.min.js")
+        script(src="js/bootstrap.min.js")

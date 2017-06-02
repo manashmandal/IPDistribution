@@ -32,9 +32,14 @@ var ip_ = read_csv(ip_path);
 // });
 
 app.get('/:user', function (req, res) {
-    console.log(ip_[0]);
     res.render("homepage", {
         user: req.params.user
+    });
+});
+
+app.get('/ips/iplist', function (req, res) {
+    res.render('iplist', {
+        ip_list: ip_
     });
 });
 
