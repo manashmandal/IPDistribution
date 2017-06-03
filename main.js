@@ -6,6 +6,11 @@ var express = require('express');
 var app = express();
 const path = require("path");
 var bodyParser = require('body-parser');
+var IPModel = require('./models/IPModel').IP;
+var mongoose = require('mongoose');
+
+// Loading config vars
+const connection_url = require('./config').mongo_connection_url;
 
 const root = __dirname;
 
@@ -35,7 +40,25 @@ var ip_renders = _ip['render'];
 //     console.log(res);
 // });
 
+// Connect to MongoDB
+mongoose.connect(connection_url);
+
 app.get('/:user', function (req, res) {
+
+    console.log("USER");
+
+    var db = mongoose.connection;
+
+    db.once('open', function () {
+        console.log("CONNECTED !!! ");
+    });
+
+    var ip1 = new IPModel({
+        id: '1'
+    });
+
+    ip1.save();
+
     res.render("homepage", {
         user: req.params.user
     });

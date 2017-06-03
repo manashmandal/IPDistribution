@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-const doc_name = 'ip_db';
+const collection_name = require('../config').collection_name;
 
 var IPSchema = new mongoose.Schema({
     id: {
@@ -46,7 +46,8 @@ var IPSchema = new mongoose.Schema({
     }]
 });
 
-var IP = mongoose.model('IP', IPSchema, doc_name);
+// Creating the Model 
+var IP = mongoose.model('IP', IPSchema, collection_name);
 
 module.exports = {
     IP: IP
