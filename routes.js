@@ -1,4 +1,6 @@
 // Routes
+var gen_ip = require('./helpers/ip').generate_ip_list;
+var get_CIDR = require('./helpers/ip').get_CIDR;
 
 module.exports = function (app, IPModel, ip_renders) {
     app.get('/:user', function (req, res) {
@@ -36,6 +38,25 @@ module.exports = function (app, IPModel, ip_renders) {
         // res.send(200);
         console.log("BUTTON CLICK");
         res.send(200);
+    });
+
+
+    // Ip Details []
+    app.get('/ip/detail/:ip_address', function (req, res) {
+        var ip_count = +req.query.count - 2;
+        var ip_address = req.params.ip_address;
+
+        var generated_ips = gen_ip({
+            ip: req.params.ip_address + "/" + get_CIDR(ip_count),
+            count: ip_count
+        });
+
+        res.render('ip_details', {
+            title_placeholder: "Available IP Addresses from Network and CIDR",
+            NetworkAddress: ip_address,
+            ip_list: generated_ips,
+            IPCount: ip_count
+        });
     });
 
 };

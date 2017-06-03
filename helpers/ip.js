@@ -20,6 +20,9 @@ exports.generate_ip_list = function (ip_details) {
     return cidr.list(ip_details['ip']).slice(EXCLUDE_NETWORK_ADDRESS, +ip_details['count'] - EXCLUDE_NETWORK_ADDRESS);
 };
 
+exports.get_CIDR = function (count) {
+    return (CIDR_MAX - Math.log2(count));
+}
 
 exports.read_csv = function (read_file_path) {
 
