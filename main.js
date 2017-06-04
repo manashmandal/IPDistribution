@@ -9,10 +9,10 @@ var bodyParser = require('body-parser');
 var IPModel = require('./models/IPModel').IP;
 var mongoose = require('mongoose');
 
-// Port number 
+// Port number
 const PORT = 8000;
 
-// Creating db instance 
+// Creating db instance
 var db = mongoose.connection;
 
 // Loading config vars
@@ -20,10 +20,10 @@ const connection_url = require('./config').mongo_connection_url;
 
 const root = __dirname;
 
-// IP CSV file read, write path  
+// IP CSV file read, write path
 const ip_path = root + "/files/bd_ip_list.csv";
 
-// Set view enine 
+// Set view enine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, "views"));
 app.use(express.static('public'));
@@ -33,15 +33,15 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-// Load all ip details 
+// Load all ip details
 var _ip = read_csv(ip_path);
 
-// Distribute ips accross rendering and processing purpose 
+// Distribute ips accross rendering and processing purpose
 var ip_ = _ip['process'];
 var ip_renders = _ip['render'];
 
 
-// Ping an ip address 
+// Ping an ip address
 // ping.promise.probe(host).then(function (res) {
 //     console.log(res);
 // });
@@ -49,8 +49,9 @@ var ip_renders = _ip['render'];
 // Connect to MongoDB
 mongoose.connect(connection_url);
 
-// Adding the routes 
+// Adding the routes
 require('./routes')(app, IPModel, ip_renders);
 
 
 app.listen(PORT);
+console.log("Started listening to : " + PORT);
