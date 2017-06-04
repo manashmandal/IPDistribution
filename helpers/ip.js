@@ -14,16 +14,17 @@ var csv_writer = require('fast-csv');
 var csvReaderStream = require('csv-reader');
 var fs = require('fs');
 
-
-
+// Generates ip list based on the ip details dictionary | json [{'ip': "192.168.2.1", "count" : 50}]
 exports.generate_ip_list = function (ip_details) {
     return cidr.list(ip_details['ip']).slice(EXCLUDE_NETWORK_ADDRESS, +ip_details['count'] - EXCLUDE_NETWORK_ADDRESS);
 };
 
+// Returns CIDR based on Ip count 
 exports.get_CIDR = function (count) {
     return (CIDR_MAX - Math.log2(count));
 }
 
+// Reads given csv file for ip addresses
 exports.read_csv = function (read_file_path) {
 
     // exclude first row 
