@@ -21,7 +21,7 @@ const connection_url = require('./config').mongo_connection_url;
 const root = __dirname;
 
 // IP CSV file read, write path  
-const ip_path = root + "\\files\\bd_ip_list.csv";
+const ip_path = root + "/files/bd_ip_list.csv";
 
 // Set view enine 
 app.set('view engine', 'pug');

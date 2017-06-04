@@ -43,9 +43,21 @@ module.exports = function (app, IPModel, ip_renders) {
 
     // Ip Details []
     app.get('/ip/detail/:ip_address', function (req, res) {
-        var ip_count = +req.query.count - 2;
+        
+        //Init ip count 
+        var ip_count = 5;
+
+        if (req.query.count === undefined) {
+            console.log("Count query undefined");
+            ip_count = 5;
+        } else{
+            ip_count = +req.query.count - 2;
+        }
+
+        // Get ip address from get_request parameter
         var ip_address = req.params.ip_address;
 
+        // Generate ips 
         var generated_ips = gen_ip({
             ip: req.params.ip_address + "/" + get_CIDR(ip_count),
             count: ip_count
